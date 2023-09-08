@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>stock</title>
+      <title type="png" href=""></title>
+      <style>
+            * {
+                  margin: 0;
+                  padding: 0;
+
+            }
+
+            body {
+                  background-color: black;
+                  color: #fff;
+                  text-align: center;
+                  width: 100%;
+                  display: grid;
+                  place-content: center;
+                  align-items: center;
+            }
+
+            .container {
+                  width: 100%;
+                  height: auto;
+                  display: grid;
+                  place-content: center;
+                  border: 5px solid green;
+                  background-color: gray;
+
+
+
+
+                  margin-top: 50px;
+            }
+
+            .find_data {
+                  background-color: red;
+                  width: 100%;
+                  /* height: 200px; */
+                  margin-top: 20px;
+
+                  padding-top: 20px;
+            }
+
+            .selected_data {
+                  margin-top: 10px;
+            }
+
+            input {
+                  height: 30px;
+                  font-size: 1.2rem;
+                  border-radius: 10px;
+                  padding-left: 10px;
+            }
+
+            span {
+                  font-size: 1.3rem;
+                  border-radius: 10px;
+                  border: 1px solid tomato;
+                  margin-right: 20px;
+                  padding-left: 20px;
+                  padding-right: 20px;
+                  background-color: blueviolet;
+                  margin-top: 50px;
+            }
+
+            .but {
+                  margin-top: 20px;
+            }
+
+
+            .watchlist {
+                  margin-top: 20px;
+                  width: 100%;
+                  height: auto;
+                  background-color: yellow;
+                  margin-top: 20px;
+                  color: black;
+            }
+
+
+
+            /* table style  */
+
+            th,
+            td {
+                  width: 19%;
+                  border: 1px solid black;
+            }
+      </style>
+</head>
+
+<body>
+
+
+      <h1>Stock Market Dashboard</h1>
+      <div class="container">
+
+            <div class="find_data">
+                  <h2>stock market Dashboard</h2>
+                  <div class="set-time">
+                        <input type="text" placeholder="Search for Symbol...">
+
+                        <div class="but">
+                              <span>Intrady</span><span>Daily</span>
+                        </div>
+
+                        <div class="but">
+                              <span>weekly</span><span>monthly</span>
+                        </div>
+                  </div>
+            </div>
+
+
+            <div class="watchlist">
+                  <h2>Your Watchlist</h2>
+                  <div class="selected_data">
+                        <span>1</span><span>2</span><span>3</span><span type="button" class="button">button</span>
+                  </div>
+                  <div class="selected_data">
+                        <span>1</span><span>2</span><span>3</span><span type="button" class="button">button</span>
+                  </div>
+                  <div class="selected_data">
+                        <span>1</span><span>2</span><span>3</span><span type="check" class="button">button</span>
+                  </div>
+            </div>
+      </div>
+
+      <h1>Stock Market Dashboard</h1>
+      <div class="container">
+
+            <div class="find_data">
+                  <h2>stock market Dashboard</h2>
+                  <div class="set-time">
+                        <input type="text" placeholder="Search for Symbol...">
+
+                        <div class="but">
+                              <span>Intrady</span><span>Daily</span>
+                        </div>
+
+                        <div class="but">
+                              <span>weekly</span><span>monthly</span>
+                        </div>
+                  </div>
+            </div>
+
+
+            <div class="watchlist">
+                  <h2>Your Watchlist</h2>
+                  <div class="selected_data">
+                        <span>1</span><span>2</span><span>3</span><span type="button" class="button">button</span>
+                  </div>
+
+                  <!-- // access data hre  -->
+                  <table id="data-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Open</th>
+                                <th>High</th>
+                                <th>Low</th>
+                                <th>Close</th>
+                                <th>Volume</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be displayed here -->
+                        </tbody>
+                    </table>
+            </div>
+      </div>
+
+      <button onclick="show()">button</button>
+
+
+</body>
+
+<script>
+      function show(){
+            // show datt 
+      }
+     
+//      function(){
+//       myshowdata.addEventListener('click',()=>{
+//             // create a Element and pass the data 
+//       })
+//      }
+
+
+      // get api using fetch
+
+       document.addEventListener("DOMContentLoaded", function () {
+    // Replace 'YOUR_API_KEY' with your actual Alpha Vantage API key
+    const apiKey = "YOUR_API_KEY";
+    const symbol = "IBM";
+    const interval = "5min";
+    
+    // Construct the API URL
+    const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}&apikey=${apiKey}`;
+
+            // check it 
+//     console.log(typeof(apiUrl));
+    
+    // Reference to the table body where data will be inserted
+    const tableBody = document.querySelector("#data-table tbody");
+    
+    // Send an HTTP GET request to the Alpha Vantage API
+    fetch(apiUrl)
+        .then((response) => response.json())
+        .then(data => {
+            // Extract time series data
+            const timeSeries = data["Time Series (5min)"];
+            
+            // Loop through the time series and populate the table
+            for (const time in timeSeries) {
+                if (timeSeries.hasOwnProperty(time)) {
+                    const row = document.createElement("tr");
+                    const rowData = timeSeries[time];
+                    const timeCell = document.createElement("td");
+                    timeCell.textContent = time;
+                    row.appendChild(timeCell);
+
+                    // Add more cells for other data points (Open, High, Low, Close, Volume)
+
+                    // "1. open" => is your key value"
+                    const dataPoints = ["1. open", "2. high", "3. low", "4. close", "5. volume"];
+                    dataPoints.forEach( (dataPoint) => {
+                        const dataCell = document.createElement("td");
+                        dataCell.textContent = rowData[dataPoint];
+                        row.appendChild(dataCell);
+                    });
+
+                  //   take a row variable data using appendchild pass all row data inside the tableBody
+                    tableBody.appendChild(row);
+                }
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+        });
+});
+
+
+
+
+</script>
+
+</html>
